@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zeitzeugenportal</title>
+  <style>
+    :root {
+      --bg: #f6f8fb;
+      --card: #ffffff;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --accent: #1d4ed8;
+      --accent-soft: #dbeafe;
+      --border: #e5e7eb;
+      --shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+      --radius: 20px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: linear-gradient(180deg, #eef4ff 0%, var(--bg) 220px);
+      color: var(--text);
+    }
+
+    .container {
+      width: min(1150px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 32px 0 60px;
+    }
+
+    .hero {
+      margin-bottom: 28px;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      background: var(--accent-soft);
+      color: var(--accent);
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      margin-bottom: 14px;
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      line-height: 1.05;
+    }
+
+    .intro {
+      max-width: 780px;
+      color: var(--muted);
+      font-size: 1.05rem;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      justify-content: space-between;
+      margin: 28px 0 22px;
+    }
+
+    .breadcrumbs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .breadcrumbs button,
+    .back-button,
+    .tag-button {
+      border: 0;
+      background: transparent;
+      color: var(--accent);
+      font: inherit;
+      cursor: pointer;
+      padding: 0;
+    }
+
+    .breadcrumbs span.current {
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    .count {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 18px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .decade-card {
+      padding: 22px;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+      min-height: 190px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .decade-card:hover,
+    .video-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.12);
+      border-color: #c7d2fe;
+    }
+
+    .decade-title {
+      font-size: 1.55rem;
+      margin: 0 0 8px;
+    }
+
+    .decade-text {
+      color: var(--muted);
+      margin: 0;
+      line-height: 1.55;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      width: fit-content;
+      background: #eff6ff;
+      color: #1e40af;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      margin-top: 18px;
+    }
+
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+      gap: 18px;
+    }
+
+    .video-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    }
+
+    .thumb {
+      aspect-ratio: 16 / 9;
+      width: 100%;
+      object-fit: cover;
+      display: block;
+      background: linear-gradient(135deg, #c7d2fe, #dbeafe);
+    }
+
+    .video-body {
+      padding: 18px;
+    }
+
+    .video-title {
+      margin: 0 0 8px;
+      font-size: 1.15rem;
+    }
+
+    .meta {
+      margin: 0 0 12px;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .summary {
+      margin: 0;
+      color: #374151;
+      line-height: 1.55;
+    }
+
+    .player-layout {
+      display: grid;
+      grid-template-columns: 1.5fr 0.9fr;
+      gap: 20px;
+      align-items: start;
+    }
+
+    .player-card {
+      padding: 20px;
+    }
+
+    .player-shell {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border-radius: 18px;
+      overflow: hidden;
+      background: #111827;
+      margin-bottom: 18px;
+    }
+
+    .player-shell iframe,
+    .player-shell video {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
+      background: #000;
+    }
+
+    .detail-title {
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      margin: 0 0 10px;
+    }
+
+    .detail-info {
+      color: var(--muted);
+      margin: 0 0 14px;
+      line-height: 1.55;
+    }
+
+    .detail-text {
+      margin: 0;
+      line-height: 1.65;
+      color: #374151;
+    }
+
+    .side-list {
+      padding: 10px;
+    }
+
+    .side-list h3 {
+      margin: 10px 10px 12px;
+      font-size: 1rem;
+    }
+
+    .side-item {
+      width: 100%;
+      border: 0;
+      background: transparent;
+      border-radius: 16px;
+      padding: 10px;
+      cursor: pointer;
+      text-align: left;
+      display: grid;
+      grid-template-columns: 110px 1fr;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .side-item:hover,
+    .side-item.active {
+      background: #f3f4f6;
+    }
+
+    .side-item img {
+      width: 110px;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+      border-radius: 12px;
+      display: block;
+      background: linear-gradient(135deg, #c7d2fe, #dbeafe);
+    }
+
+    .side-item-title {
+      margin: 0 0 6px;
+      font-size: 0.98rem;
+      font-weight: 700;
+    }
+
+    .side-item-meta {
+      margin: 0;
+      font-size: 0.85rem;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+
+    .empty-state {
+      padding: 28px;
+      text-align: center;
+      color: var(--muted);
+    }
+
+    .footer-note {
+      margin-top: 36px;
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.6;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 18px 20px;
+    }
+
+    code.inline {
+      background: #eef2ff;
+      color: #3730a3;
+      padding: 2px 8px;
+      border-radius: 8px;
+      font-size: 0.95em;
+    }
+
+    @media (max-width: 900px) {
+      .player-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .container {
+        width: min(100% - 20px, 1150px);
+        padding-top: 20px;
+      }
+
+      .decade-card,
+      .player-card {
+        padding: 18px;
+      }
+
+      .side-item {
+        grid-template-columns: 90px 1fr;
+      }
+
+      .side-item img {
+        width: 90px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="hero">
+      <div class="eyebrow">Digitale Zeitzeugen-Sammlung</div>
+      <h1>Zeitzeugeninterviews nach Jahrzehnten entdecken</h1>
+      <p class="intro">
+        Klicke auf ein Jahrzehnt, um alle zugeordneten Interviews anzuzeigen. Anschließend kannst du ein Video auswählen und direkt auf der Seite abspielen.
+      </p>
+    </header>
+
+    <div class="toolbar">
+      <nav class="breadcrumbs" id="breadcrumbs"></nav>
+      <div class="count" id="countInfo"></div>
+    </div>
+
+    <main id="app"></main>
+
+    <section class="footer-note">
+      <strong>Hinweis zur Anpassung:</strong>
+      Ersetze im JavaScript-Bereich die Beispieldaten in <code class="inline">const interviews</code> durch eure echten Titel, Beschreibungen, Jahrzehnte,
+      Vorschaubilder und Video-Links. Unterstützt werden aktuell <code class="inline">type: "mp4"</code> und <code class="inline">type: "youtube"</code>.
+    </section>
+  </div>
+
+  <script>
+    const interviews = [
+      {
+        id: "1950-anna-01",
+        title: "Kindheit in den 1950er-Jahren",
+        person: "Anna Müller",
+        decade: "1950er",
+        year: "1954",
+        place: "Magdeburg",
+        description: "Anna Müller berichtet über Schule, Alltag und das Familienleben in den 1950er-Jahren.",
+        longText: "In diesem Interview schildert Anna Müller ihre Erinnerungen an die Nachkriegszeit, an das schulische Leben und an Freizeitbeschäftigungen in ihrer Kindheit.",
+        thumbnail: "https://images.unsplash.com/photo-1516321497487-e288fb19713f?auto=format&fit=crop&w=1200&q=80",
+        type: "youtube",
+        videoId: "aqz-KE-bpKQ"
+      },
+      {
+        id: "1960-peter-01",
+        title: "Jugend und Musik in den 1960ern",
+        person: "Peter Schneider",
+        decade: "1960er",
+        year: "1968",
+        place: "Berlin",
+        description: "Ein Interview über Jugendkultur, Musik und gesellschaftliche Veränderungen.",
+        longText: "Peter Schneider spricht über seine Jugendzeit, über Musik als Ausdruck von Freiheit und über prägende gesellschaftliche Umbrüche in den 1960ern.",
+        thumbnail: "https://images.unsplash.com/photo-1518998053901-5348d3961a04?auto=format&fit=crop&w=1200&q=80",
+        type: "mp4",
+        video: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"
+      },
+      {
+        id: "1970-gisela-01",
+        title: "Arbeit und Alltag in den 1970ern",
+        person: "Gisela Hoffmann",
+        decade: "1970er",
+        year: "1976",
+        place: "Leipzig",
+        description: "Gisela Hoffmann berichtet über Arbeitswelt, Familie und gesellschaftliche Erwartungen.",
+        longText: "Das Interview thematisiert Beruf, Familienleben und die Wahrnehmung gesellschaftlicher Veränderungen aus persönlicher Perspektive.",
+        thumbnail: "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=1200&q=80",
+        type: "youtube",
+        videoId: "ScMzIvxBSi4"
+      },
+      {
+        id: "1980-kerstin-01",
+        title: "Schule und Freizeit in den 1980ern",
+        person: "Kerstin Wagner",
+        decade: "1980er",
+        year: "1987",
+        place: "Halle (Saale)",
+        description: "Einblicke in Schulalltag, Mediennutzung und Freizeitaktivitäten der 1980er-Jahre.",
+        longText: "Kerstin Wagner erzählt von ihrem Alltag, von Musik, Fernsehen und den Erfahrungen junger Menschen in den 1980ern.",
+        thumbnail: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80",
+        type: "mp4",
+        video: "https://www.w3schools.com/html/mov_bbb.mp4"
+      },
+      {
+        id: "1980-thomas-02",
+        title: "Technik und Wandel in den 1980ern",
+        person: "Thomas Berger",
+        decade: "1980er",
+        year: "1983",
+        place: "Dresden",
+        description: "Thomas Berger erinnert sich an technische Entwicklungen und Veränderungen im Alltag.",
+        longText: "Das Interview verbindet persönliche Erinnerungen mit Beobachtungen zu Technik, Beruf und gesellschaftlichen Veränderungen dieser Zeit.",
+        thumbnail: "https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=1200&q=80",
+        type: "youtube",
+        videoId: "ysz5S6PUM-U"
+      }
+    ];
+
+    const state = {
+      view: "decades", // decades | list | player
+      selectedDecade: null,
+      selectedVideoId: null,
+    };
+
+    const app = document.getElementById("app");
+    const breadcrumbs = document.getElementById("breadcrumbs");
+    const countInfo = document.getElementById("countInfo");
+
+    function getDecades() {
+      const grouped = interviews.reduce((acc, item) => {
+        acc[item.decade] = acc[item.decade] || [];
+        acc[item.decade].push(item);
+        return acc;
+      }, {});
+
+      return Object.entries(grouped)
+        .map(([decade, items]) => ({ decade, items }))
+        .sort((a, b) => a.decade.localeCompare(b.decade, "de", { numeric: true }));
+    }
+
+    function getSelectedVideos() {
+      if (!state.selectedDecade) return [];
+      return interviews.filter(item => item.decade === state.selectedDecade);
+    }
+
+    function getSelectedVideo() {
+      return interviews.find(item => item.id === state.selectedVideoId) || null;
+    }
+
+    function setView(view, decade = null, videoId = null) {
+      state.view = view;
+      state.selectedDecade = decade;
+      state.selectedVideoId = videoId;
+      render();
+    }
+
+    function renderBreadcrumbs() {
+      const parts = [];
+      parts.push('<button onclick="setView(\'decades\', null, null)">Start</button>');
+
+      if (state.selectedDecade) {
+        parts.push('<span>›</span>');
+        if (state.view === "player") {
+          parts.push(`<button onclick="setView('list', '${state.selectedDecade}', null)">${state.selectedDecade}</button>`);
+        } else {
+          parts.push(`<span class="current">${state.selectedDecade}</span>`);
+        }
+      }
+
+      const selectedVideo = getSelectedVideo();
+      if (state.view === "player" && selectedVideo) {
+        parts.push('<span>›</span>');
+        parts.push(`<span class="current">${selectedVideo.title}</span>`);
+      }
+
+      breadcrumbs.innerHTML = parts.join(" ");
+    }
+
+    function renderCount() {
+      if (state.view === "decades") {
+        countInfo.textContent = `${getDecades().length} Jahrzehnte`;
+      } else if (state.view === "list") {
+        countInfo.textContent = `${getSelectedVideos().length} Videos im Jahrzehnt ${state.selectedDecade}`;
+      } else if (state.view === "player") {
+        countInfo.textContent = "Videowiedergabe";
+      }
+    }
+
+    function renderDecadeView() {
+      const decades = getDecades();
+      app.innerHTML = `
+        <section class="grid">
+          ${decades.map(({ decade, items }) => `
+            <article class="card decade-card" onclick="setView('list', '${decade}', null)">
+              <div>
+                <h2 class="decade-title">${decade}</h2>
+                <p class="decade-text">
+                  Interviews und Erinnerungen aus dem Jahrzehnt ${decade}.
+                </p>
+              </div>
+              <div class="badge">${items.length} Video${items.length === 1 ? '' : 's'}</div>
+            </article>
+          `).join("")}
+        </section>
+      `;
+    }
+
+    function renderListView() {
+      const videos = getSelectedVideos();
+
+      if (!videos.length) {
+        app.innerHTML = '<div class="card empty-state">Für dieses Jahrzehnt wurden noch keine Videos hinterlegt.</div>';
+        return;
+      }
+
+      app.innerHTML = `
+        <section class="video-grid">
+          ${videos.map(video => `
+            <article class="video-card" onclick="setView('player', '${video.decade}', '${video.id}')">
+              <img class="thumb" src="${video.thumbnail}" alt="Vorschaubild zu ${video.title}" />
+              <div class="video-body">
+                <h3 class="video-title">${video.title}</h3>
+                <p class="meta">${video.person} · ${video.year} · ${video.place}</p>
+                <p class="summary">${video.description}</p>
+              </div>
+            </article>
+          `).join("")}
+        </section>
+      `;
+    }
+
+    function renderPlayer(video) {
+      if (video.type === "youtube") {
+        return `<iframe src="https://www.youtube.com/embed/${video.videoId}" title="${video.title}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>`;
+      }
+
+      return `<video controls preload="metadata">
+        <source src="${video.video}" type="video/mp4" />
+        Dein Browser unterstützt das Video-Element nicht.
+      </video>`;
+    }
+
+    function renderPlayerView() {
+      const video = getSelectedVideo();
+      const related = getSelectedVideos();
+
+      if (!video) {
+        app.innerHTML = '<div class="card empty-state">Das ausgewählte Video wurde nicht gefunden.</div>';
+        return;
+      }
+
+      app.innerHTML = `
+        <section class="player-layout">
+          <article class="card player-card">
+            <div class="player-shell">
+              ${renderPlayer(video)}
+            </div>
+            <h2 class="detail-title">${video.title}</h2>
+            <p class="detail-info">${video.person} · ${video.year} · ${video.place} · ${video.decade}</p>
+            <p class="detail-text">${video.longText}</p>
+          </article>
+
+          <aside class="card side-list">
+            <h3>Weitere Interviews aus den ${video.decade}</h3>
+            ${related.map(item => `
+              <button class="side-item ${item.id === video.id ? 'active' : ''}" onclick="setView('player', '${item.decade}', '${item.id}')">
+                <img src="${item.thumbnail}" alt="Vorschaubild ${item.title}" />
+                <div>
+                  <p class="side-item-title">${item.title}</p>
+                  <p class="side-item-meta">${item.person}<br>${item.year} · ${item.place}</p>
+                </div>
+              </button>
+            `).join("")}
+          </aside>
+        </section>
+      `;
+    }
+
+    function render() {
+      renderBreadcrumbs();
+      renderCount();
+
+      if (state.view === "decades") {
+        renderDecadeView();
+      } else if (state.view === "list") {
+        renderListView();
+      } else {
+        renderPlayerView();
+      }
+    }
+
+    render();
+    window.setView = setView;
+  </script>
+</body>
+</html>
