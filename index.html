@@ -37,7 +37,33 @@
     .hero {
       margin-bottom: 28px;
     }
+  .hero-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 24px;
+  }
 
+  .hero-text {
+    flex: 1;
+  }
+
+  .hero-logo {
+    width: 140px;
+    height: auto;
+    object-fit: contain;
+  }
+
+  @media (max-width: 700px) {
+    .hero-top {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .hero-logo {
+      width: 110px;
+    }
+  }
     .eyebrow {
       display: inline-block;
       background: var(--accent-soft);
@@ -354,12 +380,19 @@
 <body>
   <div class="container">
     <header class="hero">
-      <div class="eyebrow">Digitale Zeitzeugen-Sammlung</div>
-      <h1>Zeitzeugeninterviews nach Jahrzehnten entdecken</h1>
+  <div class="hero-top">
+    <div class="hero-text">
+      <div class="eyebrow">Schüler befragen ehemalige Schüler des Markgraf-Albrecht-Gymnasium Osterburg</div>
+      <h1>Zeitzeugeninterviews aus verschiedenen Jahrzehnten</h1>
       <p class="intro">
         Klicke auf ein Jahrzehnt, um alle zugeordneten Interviews anzuzeigen. Anschließend kannst du ein Video auswählen und direkt auf der Seite abspielen.
       </p>
-    </header>
+    </div>
+
+    <img src="img\logo.png" alt="Logo" class="hero-logo" />
+  </div>
+</header>
+
 
     <div class="toolbar">
       <nav class="breadcrumbs" id="breadcrumbs"></nav>
@@ -368,79 +401,381 @@
 
     <main id="app"></main>
 
-    <section class="footer-note">
-      <strong>Hinweis zur Anpassung:</strong>
-      Ersetze im JavaScript-Bereich die Beispieldaten in <code class="inline">const interviews</code> durch eure echten Titel, Beschreibungen, Jahrzehnte,
-      Vorschaubilder und Video-Links. Unterstützt werden aktuell <code class="inline">type: "mp4"</code> und <code class="inline">type: "youtube"</code>.
-    </section>
+
   </div>
 
   <script>
     const interviews = [
+          {
+        id: "1940-Thiessen",
+        title: "Schulzeit am MAG in den 1940ern",
+        person: "Klaus-Peter Thiessen",
+        decade: "1940er",
+        year: "1939-1942",
+        place: "Osterburg",
+        description: "Peter Thiessen berichtet über seine Schulzeit am MAG in den 1940ern.",
+        longText: "In diesem Interview schildert Peter Thiessen seine Erinnerungen an Mitschüler, Lehrer und andere Erlebnisse am MAG.",
+        thumbnail: "https://img.youtube.com/vi/HhQ9reP45Nk/hqdefault.jpg",
+        type: "youtube",
+        videoId: "HhQ9reP45Nk"
+      },
       {
-        id: "1950-anna-01",
-        title: "Kindheit in den 1950er-Jahren",
-        person: "Anna Müller",
+        id: "1950-Meinicke",
+        title: "Schulzeit am MAG in den 1950ern",
+        person: "Helga Meinicke",
         decade: "1950er",
-        year: "1954",
-        place: "Magdeburg",
-        description: "Anna Müller berichtet über Schule, Alltag und das Familienleben in den 1950er-Jahren.",
-        longText: "In diesem Interview schildert Anna Müller ihre Erinnerungen an die Nachkriegszeit, an das schulische Leben und an Freizeitbeschäftigungen in ihrer Kindheit.",
-        thumbnail: "https://images.unsplash.com/photo-1516321497487-e288fb19713f?auto=format&fit=crop&w=1200&q=80",
+        year: "1955-1958",
+        place: "Osterburg",
+        description: "Helga Meinicke berichtet über ihre Schulzeit am MAG in den 1950er-Jahren.",
+        longText: "In diesem Interview schildert Helga Meinicke ihre Erinnerungen an Mitschüler, Lehrer und andere Erlebnisse am MAG.",
+        thumbnail: "https://img.youtube.com/vi/CMbPvJ7BClc/hqdefault.jpg",
         type: "youtube",
-        videoId: "aqz-KE-bpKQ"
+        videoId: "CMbPvJ7BClc"
       },
       {
-        id: "1960-peter-01",
-        title: "Jugend und Musik in den 1960ern",
-        person: "Peter Schneider",
+        id: "1960-Herzog",
+        title: "Schulzeit und Internatsleben am MAG in den 1960ern",
+        person: "Ursula Herzog",
         decade: "1960er",
-        year: "1968",
-        place: "Berlin",
-        description: "Ein Interview über Jugendkultur, Musik und gesellschaftliche Veränderungen.",
-        longText: "Peter Schneider spricht über seine Jugendzeit, über Musik als Ausdruck von Freiheit und über prägende gesellschaftliche Umbrüche in den 1960ern.",
-        thumbnail: "https://images.unsplash.com/photo-1518998053901-5348d3961a04?auto=format&fit=crop&w=1200&q=80",
+        year: "1961-1965",
+        place: "Osterburg",
+        description: "Ursula Herzog berichtet über ihre Schulzeit am MAG und das Internatsleben in den 1960ern.",
+        longText: "In diesem Interview schildert Ursula Herzog ihre Erinnerungen an Mitschüler, Lehrer, das Internatsleben und andere Erlebnisse am MAG.",
+        thumbnail: "https://img.youtube.com/vi/-DLDBeabauQ/hqdefault.jpg",
+        type: "youtube",
+        video: "-DLDBeabauQ"
+      },
+
+      {
+        id: "1960-Scheit",
+        title: "Schulzeit und Internatsleben am MAG in den 1960ern",
+        person: "Walter Scheit",
+        decade: "1960er",
+        year: "1958-1961",
+        place: "Osterburg",
+        description: "Walter Scheit berichtet über seine Schulzeit am MAG und das Internatsleben in den 1960ern.",
+        longText: "In diesem Interview schildert Walter Scheit seine Erinnerungen an Mitschüler, Lehrer  und andere Erlebnisse am MAG.",
+        thumbnail: "https://img.youtube.com/vi/hov4ngaTMAA/hqdefault.jpg",
         type: "mp4",
-        video: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"
+        video: "hov4ngaTMAA"
       },
       {
-        id: "1970-gisela-01",
-        title: "Arbeit und Alltag in den 1970ern",
-        person: "Gisela Hoffmann",
+        id: "1960-Walther",
+        title: "Schulzeit und Internatsleben am MAG in den 1960ern",
+        person: "Elvira Walther",
+        decade: "1960er",
+        year: "1957-1961",
+        place: "Osterburg",
+        description: "Elvira Walther berichtet über ihre Schulzeit am MAG und das Internatsleben in den 1960ern.",
+        longText: "In diesem Interview schildert Elvira Walther ihre Erinnerungen an Mitschüler, Lehrer, das Internatsleben und andere Erlebnisse am MAG.",
+        thumbnail: "https://img.youtube.com/vi/s-9O7xB1APw/hqdefault.jpg",
+        type: "youtube",
+        video: "s-9O7xB1APw" 
+      },
+      {
+        id: "1960-Äedtner",
+        title: "Schulzeit am MAG in den 1960ern",
+        person: "Volker Äedtner",
+        decade: "1960er",
+        year: "1961-1965",
+        place: "Osterburg",
+        description: "Volker Äedtner berichtet über seine Schulzeit am MAG in den 1960ern.",
+        longText: "In diesem Interview schildert Volker Äedtner seine Erinnerungen an Mitschüler, Lehrer, das Internatsleben und andere Erlebnisse am MAG.",
+        thumbnail: "https://img.youtube.com/vi/5IKcXG865jA/hqdefault.jpg",
+        type: "youtube",
+        video: "5IKcXG865jA" 
+      },
+      {
+        id: "1960-Arndt",
+        title: "Schulzeit am MAG in den 1960ern",
+        person: "Klaus-Peter Arndt",
+        decade: "1960er",
+        year: "1957-1961",
+        place: "Osterburg",
+        description: "Klaus-Peter Arndt berichtet über seine Schulzeit am MAG und das Internatsleben in den 1960ern.",
+        longText: "In diesem Interview schildert Klaus-Peter Arndt seine Erinnerungen an Mitschüler, Lehrer, das Internatsleben und andere Erlebnisse am MAG.",
+        thumbnail: "https://img.youtube.com/vi/PgUfQJuFllE/hqdefault.jpg",
+        type: "youtube",
+        video: "PgUfQJuFllE" 
+      },
+      {
+        id: "1960-Kaufmann",
+        title: "Schulzeit am MAG in den 1960ern",
+        person: "Otto Kaufmann",
+        decade: "1960er",
+        year: "1962-1966",
+        place: "Osterburg",
+        description: "Otto Kaufmann berichtet über seine Schulzeit und das Internatsleben am MAG in den 1960ern.",
+        longText: "In diesem Interview schildert Otto Kaufmann seine Erinnerungen an Mitschüler, Lehrer, das Internatsleben und andere Erlebnisse am MAG.",
+        thumbnail: "https://img.youtube.com/vi/HNyUO8kWYX8/hqdefault.jpg",
+        type: "youtube",
+        video: "HNyUO8kWYX8" 
+      },
+      {
+        id: "1960-Becker",
+        title: "Schulzeit am MAG in den 1960ern",
+        person: "Renate Becker",
+        decade: "1960er",
+        year: "1958-1962",
+        place: "Osterburg",
+        description: "Renate Becker berichtet über ihre Schulzeit am MAG in den 1960ern.",
+        longText: "In diesem Interview schildert Renate Becker ihre Erinnerungen an Mitschüler, Lehrer und andere Erlebnisse am MAG.",
+        thumbnail: "https://img.youtube.com/vi/rvmNPC9dVt8/hqdefault.jpg",
+        type: "youtube",
+        video: "rvmNPC9dVt8" 
+      },
+
+      {
+        id: "1960-Stephan",
+        title: "Schulzeit am MAG in den 1960ern",
+        person: "Jürgen Stephan",
+        decade: "1960er",
+        year: "1960-1963",
+        place: "Osterburg",
+        description: "Jürgen Stephan berichtet über seine Schulzeit am MAG in den 1960ern.",
+        longText: "In diesem Interview schildert Jürgen Stephan seine Erinnerungen an Mitschüler, Lehrer und andere Erlebnisse am MAG.",
+        thumbnail: "https://img.youtube.com/vi/q4M1LaE8Hlw/hqdefault.jpg",
+        type: "youtube",
+        video: "q4M1LaE8Hlw" 
+      },
+
+      {
+        id: "1960-Meredig",
+        title: "Schulzeit am MAG in den 1960ern",
+        person: "Barbara Meredig",
+        decade: "1960er",
+        year: "1960-1961",
+        place: "Osterburg",
+        description: "Barbara Meredig berichtet über ihre Schulzeit am MAG in den 1960ern.",
+        longText: "In diesem Interview schildert Barbara Meredig ihre Erinnerungen an Mitschüler, Lehrer und andere Erlebnisse am MAG.",
+        thumbnail: "https://img.youtube.com/vi/Lev-tvGvBZQ/hqdefault.jpg",
+        type: "youtube",
+        video: "Lev-tvGvBZQ" 
+      },
+
+
+      {
+        id: "1960-Lemme",
+        title: "Schulzeit am MAG in den 1960ern",
+        person: "Dr. Friedrich Lemme",
+        decade: "1960er",
+        year: "1959-1962",
+        place: "Osterburg",
+        description: "Dr. Friedrich Lemme berichtet über seine Schulzeit am MAG in den 1960ern.",
+        longText: "In diesem Interview schildert Dr. Friedrich Lemme seine Erinnerungen an Mitschüler, Lehrer und andere Erlebnisse am MAG.",
+        thumbnail: "https://img.youtube.com/vi/eBFM06HGtF8/hqdefault.jpg",
+        type: "youtube",
+        video: "eBFM06HGtF8" 
+      },
+
+
+      {
+        id: "1970-Janas",
+        title: "Schulzeit am MAG in den 1970ern",
+        person: "Horst Janas",
         decade: "1970er",
-        year: "1976",
-        place: "Leipzig",
-        description: "Gisela Hoffmann berichtet über Arbeitswelt, Familie und gesellschaftliche Erwartungen.",
-        longText: "Das Interview thematisiert Beruf, Familienleben und die Wahrnehmung gesellschaftlicher Veränderungen aus persönlicher Perspektive.",
-        thumbnail: "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=1200&q=80",
+        year: "1974-1977",
+        place: "Osterburg",
+        description: "Horst Janas berichtet über seine Schulzeit am MAG in den 1970ern.",
+        longText: "In diesem Interview schildert Horst Janas seine Erinnerungen an Mitschüler, Lehrer und andere Erlebnisse am MAG.",
+        thumbnail: "https://img.youtube.com/vi/SZqsYp1j8sw/hqdefault.jpg",
         type: "youtube",
-        videoId: "ScMzIvxBSi4"
+        videoId: "SZqsYp1j8sw"
+
+      },
+
+      {
+        id: "1970-Schulz",
+        title: "Schulzeit am MAG in den 1970ern",
+        person: "Rainer Schulz",
+        decade: "1970er",
+        year: "1968 - 1973",
+        place: "Osterburg",
+        description: "Rainer Schulz berichtet über seine Schulzeit am MAG in den 1970ern.",
+        longText: "In diesem Interview schildert Rainer Schulz seine Erinnerungen an Mitschüler, Lehrer und andere Erlebnisse am MAG.",
+        thumbnail: "https://img.youtube.com/vi/AIvJjfT-7T0/hqdefault.jpg",
+        type: "youtube",
+        videoId: "AIvJjfT-7T0"
+      },
+
+      {
+        id: "1970-Kiehn",
+        title: "Schulzeit am MAG in den 1970ern",
+        person: "Holger Kiehn",
+        decade: "1970er",
+        year: "1974-1977",
+        place: "Osterburg",
+        description: "Holger Kiehn berichtet über seine Schulzeit am MAG in den 1970ern.",
+        longText: "In diesem Interview schildert Holger Kiehn seine Erinnerungen an Mitschüler, Lehrer und andere Erlebnisse am MAG.",
+        thumbnail: "https://img.youtube.com/vi/FhPuHkYM3nM/hqdefault.jpg",
+        type: "youtube",
+        videoId: "FhPuHkYM3nM"
+      },
+      {        
+        id: "1970-Garlipp",
+        title: "Schulzeit am MAG in den 1970ern",
+        person: "Dr. Hans-Peter Garlipp",
+        decade: "1970er",
+        year: "1973-1977",
+        place: "Osterburg",
+        description: "Dr. Hans-Peter Garlipp berichtet über seine Schulzeit und das Internatsleben am MAG in den 1970ern.",
+        longText: "In diesem Interview schildert Dr. Hans-Peter Garlipp seine Erinnerungen an Mitschüler, Lehrer, das Internatsleben und andere Erlebnisse am MAG.",
+        thumbnail: "https://img.youtube.com/vi/BMXXfuz1ygI/hqdefault.jpg",
+        type: "youtube",
+        videoId: "BMXXfuz1ygI"
       },
       {
-        id: "1980-kerstin-01",
-        title: "Schule und Freizeit in den 1980ern",
-        person: "Kerstin Wagner",
+        id: "1970-Juhnke-Peyer",
+        title: "Schulzeit und Internatsleben am MAG in den 1970ern",
+        person: "Ellen Juhnke und Annegret Peyer",
+        decade: "1970er",
+        year: "1973-1977",
+        place: "Osterburg",
+        description: "Ellen Juhnke und Annegret Peyer berichten über ihre Schulzeit und das Internatsleben am MAG in den 1970ern.",
+        longText: "In diesem Interview schildern Ellen Juhnke und Annegret Peyer ihre Erinnerungen an Mitschüler, Lehrer, das Internatsleben und andere Erlebnisse am MAG.",
+        thumbnail: "https://img.youtube.com/vi/bJknu3cvYSs/hqdefault.jpg",
+        type: "youtube",
+        videoId: "bJknu3cvYSs"
+      },
+
+       {
+        id: "1970-Altknecht",
+        title: "Schulzeit und Internatsleben am MAG in den 1970ern",
+        person: "Holger Altknecht",
+        decade: "1970er",
+        year: "1973-1978",
+        place: "Osterburg",
+        description: "Holger Altknecht berichtet über seine Schulzeit am MAG in den 1970ern.",
+        longText: "In diesem Interview schildert Holger Altknecht seine Erinnerungen an Mitschüler, Lehrer und andere Erlebnisse am MAG.",
+        thumbnail: "https://img.youtube.com/vi/hhEOZXpMbgs/hqdefault.jpg",
+        type: "youtube",
+        videoId: "hhEOZXpMbgs"
+      },
+
+      {
+        id: "1970-Kraus",
+        title: "Schulzeit am MAG in den 1970ern",
+        person: "Uwe Kraus",
+        decade: "1970er",
+        year: "1975-1979",
+        place: "Osterburg",
+        description: "Uwe Kraus berichtet über seine Schulzeit am MAG in den 1970ern.",
+        longText: "In diesem Interview schildert Uwe Kraus seine Erinnerungen an Mitschüler, Lehrer und andere Erlebnisse am MAG.",
+        thumbnail: "https://img.youtube.com/vi/H2T7YYzmNm4/hqdefault.jpg",
+        type: "youtube",
+        videoId: "H2T7YYzmNm4"
+      },
+
+      {
+        id: "1980-Schröter",
+        title: "Schulzeit am MAG in den 1980ern",
+        person: "Volkmar Schröter",
         decade: "1980er",
-        year: "1987",
-        place: "Halle (Saale)",
-        description: "Einblicke in Schulalltag, Mediennutzung und Freizeitaktivitäten der 1980er-Jahre.",
-        longText: "Kerstin Wagner erzählt von ihrem Alltag, von Musik, Fernsehen und den Erfahrungen junger Menschen in den 1980ern.",
-        thumbnail: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80",
-        type: "mp4",
-        video: "https://www.w3schools.com/html/mov_bbb.mp4"
+        year: "1985-1989",
+        place: "Osterburg",
+        description: "Volkmar Schröter berichtet über seine Schulzeit am MAG in den 1970ern.",
+        longText: "In diesem Interview schildert Volkmar Schröter seine Erinnerungen an Mitschüler, Lehrer und andere Erlebnisse am MAG.",
+        thumbnail: "https://img.youtube.com/vi/jMXnH3vFNCE/hqdefault.jpg",
+        type: "youtube",
+        videoId: "jMXnH3vFNCE"
+      },
+
+      {
+        id: "1980-Reichardt",
+        title: "Schulzeit am MAG in den 1980ern",
+        person: "Jens Reichardt",
+        decade: "1980er",
+        year: "1987-1989",
+        place: "Osterburg",
+        description: "Jens Reichhardt berichtet über seine Schulzeit am MAG in den 1970ern.",
+        longText: "In diesem Interview schildert Jens Reichardt seine Erinnerungen an Mitschüler, Lehrer und andere Erlebnisse am MAG.",
+        thumbnail: "https://img.youtube.com/vi/E_7WT3gQkcM/hqdefault.jpg",
+        type: "youtube",
+        videoId: "E_7WT3gQkcM"
+      },
+
+      {
+        id: "1990er-Hoffmann",
+        title: "Schulzeit am MAG in den 1990ern",
+        person: "Sina Hoffmann",
+        decade: "1990er",
+        year: "1991 - 1996",
+        place: "Osterburg",
+        description: "Sina Hoffmann berichtet über ihre Schulzeit am MAG in den 1990ern",
+        longText: "In diesem Interview schildert Sina Hoffmann ihre Erinnerungen an Mitschüler, Lehrer und andere Erlebnisse am MAG.",
+        thumbnail: "https://img.youtube.com/vi/42YFAr7FYnM/hqdefault.jpg",
+        type: "youtube",
+        videoId: "42YFAr7FYnM"
+      },
+
+
+      {
+        id: "2000er-Mertens",
+        title: "Schulzeit am MAG in den 2000ern",
+        person: "Ariane Mertens",
+        decade: "2000er",
+        year: "1999-2006",
+        place: "Osterburg",
+        description: "Ariane Mertens berichtet über ihre Schulzeit am MAG in den 2000ern.",
+        longText: "In diesem Interview schildert Ariane Mertens ihre Erinnerungen an Mitschüler, Lehrer und andere Erlebnisse am MAG.",
+        thumbnail: "https://img.youtube.com/vi/K4_7y5kODvQ/hqdefault.jpg",
+        type: "youtube",
+        videoId: "K4_7y5kODvQ"
       },
       {
-        id: "1980-thomas-02",
-        title: "Technik und Wandel in den 1980ern",
-        person: "Thomas Berger",
-        decade: "1980er",
-        year: "1983",
-        place: "Dresden",
-        description: "Thomas Berger erinnert sich an technische Entwicklungen und Veränderungen im Alltag.",
-        longText: "Das Interview verbindet persönliche Erinnerungen mit Beobachtungen zu Technik, Beruf und gesellschaftlichen Veränderungen dieser Zeit.",
-        thumbnail: "https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=1200&q=80",
+        id: "2000er-Wernecke",
+        title: "Schulzeit am MAG in den 2000ern",
+        person: "Franziska Wernecke",
+        decade: "2000er",
+        year: "1998-2004",
+        place: "Osterburg",
+        description: "Franziska Wernecke berichtet über ihre Schulzeit am MAG in den 2000ern",
+        longText: "In diesem Interview schildert Franziska Wernecke Erinnerungen an Mitschüler, Lehrer und andere Erlebnisse am MAG.",
+        thumbnail: "https://img.youtube.com/vi/tigYXXLzKhY/hqdefault.jpg",
         type: "youtube",
-        videoId: "ysz5S6PUM-U"
+        videoId: "tigYXXLzKhY"
+      },
+
+      {
+        id: "2010er-Rudloff",
+        title: "Schulzeit am MAG in den 2010ern",
+        person: "Lisa Rudloff",
+        decade: "2010er",
+        year: "2006-2014",
+        place: "Osterburg",
+        description: "Lisa Rudloff berichtet über ihre Schulzeit am MAG in den 2010ern",
+        longText: "In diesem Interview schildert Lisa Rudloff Erinnerungen an Mitschüler, Lehrer und andere Erlebnisse am MAG.",
+        thumbnail: "https://img.youtube.com/vi/rxyULsJitoc/hqdefault.jpg",
+        type: "youtube",
+        videoId: "rxyULsJitoc"
+      },
+
+            {
+        id: "2010er-Duewert",
+        title: "Schulzeit am MAG in den 2010ern",
+        person: "Markus Düwert",
+        decade: "2010er",
+        year: "2007-2013",
+        place: "Osterburg",
+        description: "Markus Düwert berichtet über seine Schulzeit am MAG in den 2010ern",
+        longText: "In diesem Interview schildert Markus Düwert Erinnerungen an Mitschüler, Lehrer und andere Erlebnisse am MAG.",
+        thumbnail: "https://img.youtube.com/vi/Z9Rh9SxqcwE/hqdefault.jpg",
+        type: "youtube",
+        videoId: "Z9Rh9SxqcwE"
+      },
+
+      {
+        id: "2010-Brun",
+        title: "Schulzeit am MAG in den 2010ern",
+        person: "Leonie Brun",
+        decade: "2010er",
+        year: "2011-2019",
+        place: "Osterburg",
+        description: "Leonie Brun berichtet über ihre Schulzeit am MAG in den 2010ern.",
+        longText: "In diesem Interview schildert Leonie Brun Erinnerungen an Mitschüler, Lehrer und andere Erlebnisse am MAG.",
+        thumbnail: "https://img.youtube.com/vi/71WVTVQidE8/hqdefault.jpg",
+        type: "youtube",
+        videoId: "71WVTVQidE8"
       }
     ];
 
@@ -523,7 +858,7 @@
               <div>
                 <h2 class="decade-title">${decade}</h2>
                 <p class="decade-text">
-                  Interviews und Erinnerungen aus dem Jahrzehnt ${decade}.
+                  Erinnerungen an die Schulzeit aus den ${decade}n.
                 </p>
               </div>
               <div class="badge">${items.length} Video${items.length === 1 ? '' : 's'}</div>
